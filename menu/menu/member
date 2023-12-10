@@ -1,0 +1,64 @@
+#!/bin/bash
+# //====================================================
+# //	System Request:Debian 9+/Ubuntu 18.04+/20+
+# //	Author:	YSSHstore
+# //	Dscription: Xray Menu Management
+# //	email: admin@yogz.com
+# //  telegram: https://t.me/YSSHstore
+# //====================================================
+Green="\e[92;1m"
+RED="\033[31m"
+NC='\033[0m'
+OR='\033[1;93m'
+gg='\e[1;77m' #ijo tebel
+ipsaya=$(wget -qO- ipinfo.io/ip)
+data_server=$(curl -v --insecure --silent https://google.com/ 2>&1 | grep Date | sed -e 's/< Date: //')
+date_list=$(date +"%Y-%m-%d" -d "$data_server")
+data_ip="https://raw.githubusercontent.com/kytrx/regip/main/ip"
+domain=$(cat /etc/xray/domain)
+checking_sc() {
+  useexp=$(wget -qO- $data_ip | grep $ipsaya | awk '{print $3}')
+  if [[ $date_list < $useexp ]]; then
+    echo -ne
+  else
+    echo -e "${OR}────────────────────────────────────────────${NC}"
+    echo -e "\033[42m          YOGZTUNNEL AUTOSCRIPT          ${NC}"
+    echo -e "${OR}────────────────────────────────────────────${NC}"
+    echo -e ""
+    echo -e "            ${RED}PERMISSION DENIED !${NC}"
+    echo -e "   \033[0;33mYour VPS${NC} $ipsaya \033[0;33mHas been Banned${NC}"
+    echo -e "     \033[0;33mBuy access permissions for scripts${NC}"
+    echo -e "             \033[0;33mContact Admin :${NC}"
+    echo -e "      ${Green}WhatsApp${NC} wa.me/6281215360549"
+    echo -e "         \033[0;36mTelegram${NC} t.me/YSSHstore"
+    echo -e "${OR}────────────────────────────────────────────${NC}"
+    exit
+  fi
+}
+checking_sc
+clear
+echo -e " ${OR}──────────────────────────────────────${NC}"
+echo -e "    ${greenbo}.::.${NC}${gg} MEMBER SSH OVPN ACCOUNT ${grenbo}.::.$NC"
+echo -e " ${OR}──────────────────────────────────────${NC}"
+echo -e ""
+echo "   username       status         day.left"
+echo -e " ---------------------------------------"
+while read expired
+do
+AKUN="$(echo $expired | cut -d: -f1)"
+ID="$(echo $expired | grep -v nobody | cut -d: -f3)"
+exp="$(chage -l $AKUN | grep "Account expires" | awk -F": " '{print $2}')"
+status="$(passwd -S $AKUN | awk '{print $2}' )"
+if [[ $ID -ge 1000 ]]; then
+if [[ "$status" = "L" ]]; then
+ printf "%-17s %2s %-17s %2s \n" "  $AKUN " "Locked${NORMAL}    "  "$exp"
+else
+ printf "%-17s %2s %-17s %2s \n" "  $AKUN " "Unlocked${NORMAL}  "  "$exp"
+fi
+fi
+done < /etc/passwd
+JUMLAH="$(awk -F: '$3 >= 1000 && $1 != "nobody" {print $1}' /etc/passwd | wc -l)"
+echo -e ""
+echo "       Account number: $JUMLAH   user"
+echo -e "${grenbo} ---------------------------------------${NC}"
+echo -e ""

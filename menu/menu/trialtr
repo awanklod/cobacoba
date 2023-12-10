@@ -1,0 +1,152 @@
+#!/bin/bash
+# //====================================================
+# //	System Request:Debian 9+/Ubuntu 18.04+/20+
+# //	Author: YSSHstore
+# //	Dscription: Xray Menu Management
+# //	email: admin@yogz.com
+# //  telegram: https://t.me/YSSHstore
+# //====================================================
+Green="\e[92;1m"
+RED="\033[31m"
+NC='\033[0m'
+OR='\033[1;93m'
+ipsaya=$(wget -qO- ipinfo.io/ip)
+data_server=$(curl -v --insecure --silent https://google.com/ 2>&1 | grep Date | sed -e 's/< Date: //')
+date_list=$(date +"%Y-%m-%d" -d "$data_server")
+data_ip="https://raw.githubusercontent.com/kytrx/regip/main/ip"
+ISP=$(cat /etc/xray/isp)
+CITY=$(cat /etc/xray/city)
+PUB=$(cat /etc/slowdns/server.pub)
+NS=$(cat /etc/xray/dns)
+domain=$(cat /etc/xray/domain)
+checking_sc() {
+  useexp=$(wget -qO- $data_ip | grep $ipsaya | awk '{print $3}')
+  if [[ $date_list < $useexp ]]; then
+    echo -ne
+  else
+    echo -e "${OR}────────────────────────────────────────────${NC}"
+    echo -e "\033[42m          YOGZTUNNEL AUTOSCRIPT          ${NC}"
+    echo -e "${OR}────────────────────────────────────────────${NC}"
+    echo -e ""
+    echo -e "            ${RED}PERMISSION DENIED !${NC}"
+    echo -e "   \033[0;33mYour VPS${NC} $ipsaya \033[0;33mHas been Banned${NC}"
+    echo -e "     \033[0;33mBuy access permissions for scripts${NC}"
+    echo -e "             \033[0;33mContact Admin :${NC}"
+    echo -e "      ${Green}WhatsApp${NC} wa.me/6281215360549"
+    echo -e "         \033[0;36mTelegram${NC} t.me/YSSHstore"
+    echo -e "${OR}────────────────────────────────────────────${NC}"
+    exit
+  fi
+}
+checking_sc
+clear
+echo -e "  ${OR}──────────────────────────────────────${NC}"
+printf "\e[1;92m    .::.\e[0m\e[1;77m Trial Xray/Trojan Account \e[1;92m.::.\e[0m\n"
+echo -e "  ${OR}──────────────────────────────────────${NC}"
+echo ""
+read -p "  Expired (Minutes): " timer
+Quota=1
+iplimit=2
+user=Trial_$(tr </dev/urandom -dc X-Z0-9 | head -c4)
+uuid=$(cat /proc/sys/kernel/random/uuid)
+exp=$(date -d "1 days" +"%Y-%m-%d")
+sed -i '/#trojanws$/a\#! '"$user $exp"'\
+},{"password": "'""$uuid""'","email": "'""$user""'"' /etc/xray/config.json
+sed -i '/#trojangrpc$/a\#! '"$user $exp"'\
+},{"password": "'""$uuid""'","email": "'""$user""'"' /etc/xray/config.json
+cat >/var/www/html/trojan-$user.txt <<-END
+
+---------------------
+# Format Trojan GO/WS (CDN)
+---------------------
+
+- name: Trojan-$user
+  server: ${domain}
+  port: 443
+  type: trojan
+  password: ${uuid}
+  network: ws
+  sni: ${domain}
+  skip-cert-verify: true
+  udp: true
+  ws-opts:
+    path: /trojan-ws
+    headers:
+        Host: ${domain}
+---------------------
+# Format Trojan gRPC
+---------------------
+
+- name: Trojan-$user
+  type: trojan
+  server: ${domain}
+  port: 443
+  password: ${uuid}
+  udp: true
+  sni: ${domain}
+  skip-cert-verify: true
+  network: grpc
+  grpc-opts:
+    grpc-service-name: trojan-grpc
+
+---------------------
+ Link Trojan Account
+---------------------
+Link WS : trojan://${uuid}@${domain}:443?path=0.000000whatever0.000000trojan-ws&security=tls&host=${domain}&type=ws&sni=${domain}#Trojan-$user-GO%2BWS
+---------------------
+Link GRPC : trojan://${uuid}@${domain}:443?mode=gun&security=tls&type=grpc&serviceName=trojan-grpc&sni=${domain}#Trojan-$user-GRPC
+---------------------
+
+END
+systemctl restart xray
+trojanlink="trojan://${uuid}@${domain}:443?path=0.000000whatever0.000000trojan-ws&security=tls&host=${domain}&type=ws&sni=${domain}#Trojan-$user-GO%2BWS"
+trojanlink1="trojan://${uuid}@${domain}:443?mode=gun&security=tls&type=grpc&serviceName=trojan-grpc&sni=${domain}#Trojan-$user-GRPC"
+if [ ! -e /etc/vless ]; then
+  mkdir -p /etc/vless
+fi
+
+if [[ $iplimit -gt 0 ]]; then
+mkdir -p /etc/kyt/limit/vless/ip
+echo -e "$iplimit" > /etc/kyt/limit/vless/ip/$user
+else
+echo > /dev/null
+fi
+
+if [ -z ${Quota} ]; then
+  Quota="0"
+fi
+
+c=$(echo "${Quota}" | sed 's/[^0-9]*//g')
+d=$((${c} * 1024 * 1024 * 1024))
+
+if [[ ${c} != "0" ]]; then
+  echo "${d}" >/etc/vless/${user}
+fi
+DATADB=$(cat /etc/vless/.vless.db | grep "^###" | grep -w "${user}" | awk '{print $2}')
+if [[ "${DATADB}" != '' ]]; then
+  sed -i "/\b${vless}\b/d" /etc/vless/.vless.db
+fi
+echo "### ${user} ${Quota} ${iplimit} ${timer}" >>/etc/vless/.vless.db
+systemctl restart xray
+tmux new-session -d -s $user "trial trialtr $user $timer"
+clear -x
+echo -e "${OR}───────────────────────────${NC}"
+echo -e "\e[92;1m    Xray/Trojan Account    \E[0m"
+echo -e "${OR}───────────────────────────${NC}"
+echo -e "Remarks     : ${user}"
+echo -e "CITY        : ${CITY}"
+echo -e "ISP         : ${ISP}"
+echo -e "Domain      : ${domain}"
+echo -e "Port TLS    : 443"
+echo -e "Port GRPC   : 443"
+echo -e "path        : /trojan"
+echo -e "servicename : trojan-grpc"
+echo -e "${OR}───────────────────────────${NC}"
+echo -e "Link WS     : ${trojanlink}"
+echo -e "${OR}───────────────────────────${NC}"
+echo -e "Link GRPC   : ${trojanlink1}"
+echo -e "${OR}───────────────────────────${NC}"
+echo -e "Format OpenClash : https://${domain}:81/trojan-$user.txt"
+echo -e "${OR}───────────────────────────${NC}"
+echo -e "Expired On  : $timer Minutes"
+echo -e ""

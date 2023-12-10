@@ -1,0 +1,63 @@
+#!/bin/bash
+# //====================================================
+# //	System Request:Debian 9+/Ubuntu 18.04+/20+
+# //	Author:	YSSHstore
+# //	Dscription: Xray Menu Management
+# //	email: admin@yogz.com
+# //  telegram: https://t.me/YSSHstore
+# //====================================================
+Green="\e[92;1m"
+RED="\033[31m"
+NC='\033[0m'
+OR='\033[1;93m'
+gg='\e[1;77m' #ijo tebel
+ipsaya=$(wget -qO- ipinfo.io/ip)
+data_server=$(curl -v --insecure --silent https://google.com/ 2>&1 | grep Date | sed -e 's/< Date: //')
+date_list=$(date +"%Y-%m-%d" -d "$data_server")
+data_ip="https://raw.githubusercontent.com/kytrx/regip/main/ip"
+domain=$(cat /etc/xray/domain)
+checking_sc() {
+  useexp=$(wget -qO- $data_ip | grep $ipsaya | awk '{print $3}')
+  if [[ $date_list < $useexp ]]; then
+    echo -ne
+  else
+    echo -e "${OR}────────────────────────────────────────────${NC}"
+    echo -e "\033[42m          YOGZTUNNEL AUTOSCRIPT          ${NC}"
+    echo -e "${OR}────────────────────────────────────────────${NC}"
+    echo -e ""
+    echo -e "            ${RED}PERMISSION DENIED !${NC}"
+    echo -e "   \033[0;33mYour VPS${NC} $ipsaya \033[0;33mHas been Banned${NC}"
+    echo -e "     \033[0;33mBuy access permissions for scripts${NC}"
+    echo -e "             \033[0;33mContact Admin :${NC}"
+    echo -e "      ${Green}WhatsApp${NC} wa.me/6281215360549"
+    echo -e "         \033[0;36mTelegram${NC} t.me/YSSHstore"
+    echo -e "${OR}────────────────────────────────────────────${NC}"
+    exit
+  fi
+}
+checking_sc
+clear
+echo -e "  ${OR}──────────────────────────────────────${NC}"
+echo -e "   ${grenbo} .::.${NC}${gg} SSH User Login Account ${grenbo}.::.${NC}"
+echo -e "  ${OR}──────────────────────────────────────${NC}"
+echo -e " ${green} username     ip.limit     login.ip"
+echo -e "  ---------------------------------------"
+mulog=$(mesinssh)
+data=( `cat /etc/passwd | grep home | cut -d ' ' -f 1 | cut -d : -f 1`);
+for user in "${data[@]}"
+do
+cekcek=$(echo -e "$mulog" | grep $user | wc -l)
+if [[ $cekcek -gt 0 ]]; then
+iplimit=$(cat /etc/kyt/limit/ssh/ip/$user)
+echo -e "   $user   |   $iplimit   | $cekcek"
+echo "slot" >> /root/.system
+else
+echo > /dev/null
+fi
+sleep 0.1
+done
+aktif=$(cat /root/.system | wc -l)
+echo -e "  ${OR}──────────────────────────────────────${NC}"
+echo -e "            $aktif User Online"
+echo -e "  ${OR}──────────────────────────────────────${NC}"
+sed -i "d" /root/.system

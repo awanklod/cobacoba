@@ -1,0 +1,169 @@
+#!/bin/bash
+ipsaya=$(wget -qO- ipinfo.io/ip)
+data_server=$(curl -v --insecure --silent https://google.com/ 2>&1 | grep Date | sed -e 's/< Date: //')
+date_list=$(date +"%Y-%m-%d" -d "$data_server")
+data_ip="https://raw.githubusercontent.com/kytrx/regip/main/ip"
+checking_sc() {
+  useexp=$(wget -qO- $data_ip | grep $ipsaya | awk '{print $3}')
+  if [[ $date_list < $useexp ]]; then
+    echo -ne
+  else
+    echo -e "${OR}────────────────────────────────────────────${NC}"
+    echo -e "\033[42m          YOGZTUNNEL AUTOSCRIPT          ${NC}"
+    echo -e "${OR}────────────────────────────────────────────${NC}"
+    echo -e ""
+    echo -e "            ${RED}PERMISSION DENIED !${NC}"
+    echo -e "   \033[0;33mYour VPS${NC} $ipsaya \033[0;33mHas been Banned${NC}"
+    echo -e "     \033[0;33mBuy access permissions for scripts${NC}"
+    echo -e "             \033[0;33mContact Admin :${NC}"
+    echo -e "      ${Green}WhatsApp${NC} wa.me/6281215360549"
+    echo -e "         \033[0;36mTelegram${NC} t.me/YSSHstore"
+    echo -e "${OR}────────────────────────────────────────────${NC}"
+    exit
+  fi
+}
+checking_sc
+clear
+purple="\033[1;95m"
+r="\033[1;31m"  #REDTERANG
+OR='\033[1;93m'
+RED='\033[0;31m'
+NC='\e[0m'
+gray="\e[1;30m"
+Blue="\033[1;36m"
+GREEN='\033[0;32m'
+g='\033[1;92m'
+#Download/Upload today
+dtoday="$(vnstat -i eth0 | grep "today" | awk '{print $2" "substr ($3, 1, 1)}')"
+utoday="$(vnstat -i eth0 | grep "today" | awk '{print $5" "substr ($6, 1, 1)}')"
+ttoday="$(vnstat -i eth0 | grep "today" | awk '{print $8" "substr ($9, 1, 1)}')"
+#Download/Upload yesterday
+dyest="$(vnstat -i eth0 | grep "yesterday" | awk '{print $2" "substr ($3, 1, 1)}')"
+uyest="$(vnstat -i eth0 | grep "yesterday" | awk '{print $5" "substr ($6, 1, 1)}')"
+tyest="$(vnstat -i eth0 | grep "yesterday" | awk '{print $8" "substr ($9, 1, 1)}')"
+#Download/Upload current month
+dmon="$(vnstat -i eth0 -m | grep "`date +"%b '%y"`" | awk '{print $3" "substr ($4, 1, 1)}')"
+umon="$(vnstat -i eth0 -m | grep "`date +"%b '%y"`" | awk '{print $6" "substr ($7, 1, 1)}')"
+tmon="$(vnstat -i eth0 -m | grep "`date +"%b '%y"`" | awk '{print $9" "substr ($10, 1, 1)}')"
+clear
+###########################
+#INSTALLER UDP
+UDPX="https://docs.google.com/uc?export=download&confirm=$(wget --quiet --save-cookies /tmp/cookies.txt --keep-session-cookies --no-check-certificate 'https://docs.google.com/uc?export=download&id=1S3IE25v_fyUfCLslnujFBSBMNunDHDk2' -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=1S3IE25v_fyUfCLslnujFBSBMNunDHDk2"
+clear
+echo -e "   ${OR}┌━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┐${NC}"
+echo -e "   ${OR}│$NC$g    .::.$NC  SYSTEM SETTINGS  $g.::.        ${NC}"
+echo -e "   ${OR}└━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┘${NC}"
+echo -e "   ${OR}│$NC$r Today$NC     ➤$NC$g $ttoday"
+echo -e "   ${OR}│$NC$r Yesterday$NC ➤$NC$g $tyest"
+echo -e "   ${OR}│$NC$r Month$NC     ➤$NC$g $tmon"
+echo -e "   ${OR}└━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┘${NC}"
+echo -e "   ${OR}┌━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┐${NC}"
+echo -e "   ${OR}│$NC$g  1.${NC}\033[0;36m Check running service ${NC}"
+echo -e "   ${OR}│$NC$g  2.${NC}\033[0;36m Restart all service ${NC}"
+echo -e "   ${OR}│$NC$g  3.${NC}\033[0;36m Create slowdns account ${NC}"
+echo -e "   ${OR}│$NC$g  4.${NC}\033[0;36m Update autoscript ${NC}"
+echo -e "   ${OR}│$NC$g  5.${NC}\033[0;36m Check bandwidth usage${NC}"
+echo -e "   ${OR}│$NC$g  6.${NC}\033[0;36m Chnge banner server${NC}"
+echo -e "   ${OR}│$NC$g  7.${NC}\033[0;36m Change Domain${NC}"
+echo -e "   ${OR}│$NC$g  8.${NC}\033[0;36m Fix domain pointing${NC}"
+echo -e "   ${OR}│$NC$g  9.${NC}\033[0;36m Clear Log All Service${NC}"
+echo -e "   ${OR}│$NC$g 10.${NC}\033[0;36m Clear Cache${NC}"
+echo -e "   ${OR}│$NC$g 11.${NC}\033[0;36m Backup/Restore Data server${NC}"
+echo -e "   ${OR}│$NC$g 12.${NC}\033[0;36m Delete all account expired${NC}"
+echo -e "   ${OR}│$NC$g 13.${NC}\033[0;36m Setup Bot Telegram ${NC}"
+echo -e "   ${OR}│$NC$g 14.${NC}\033[0;36m Check Cpu/Ram usage${NC}"
+echo -e "   ${OR}│$NC$g 15.${NC}\033[0;36m Streaming support cheker${NC}"
+echo -e "   ${OR}│$NC$g 16.${NC}\033[0;36m Speedtest ${NC}"
+echo -e "   ${OR}│$NC$g 17.${NC}\033[0;36m Autoreboot ${NC}"
+echo -e "   ${OR}│$NC$g 18.${NC}\033[0;36m Information port ${NC}"
+echo -e "   ${OR}│$NC$g 19.${NC}\033[0;36m Restart/Reboot server ${NC}"
+echo -e "   ${OR}│$NC$g x.${NC}\033[0;36m  Exit system settings${NC}"
+echo -e "   ${OR}└━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┘${NC}"
+echo -e ""
+read -p "  Select From Options [ 1 - 19 ] : " menu
+case $menu in
+1 | 01)
+clear
+run
+;;
+2 | 02)
+clear
+reset
+;;
+3 | 03)
+clear
+sd
+;;    
+4 | 04)
+clear
+upsc
+;;
+5 | 05)
+clear
+bw
+;;
+6 | 06)
+clear
+nano /etc/kyt.txt
+;;
+7 | 07)
+clear
+addhost
+;;
+8 | 08)
+clear
+fixcert
+;;
+9 | 09)
+clear
+clearlog
+;;
+10)
+clear
+clearcache
+;;
+11)
+clear
+menu-backup
+;;
+12)
+clear
+xp
+;;
+13)
+clear
+add-bot-panel
+;;
+14)
+clear
+gotop
+echo ""
+echo -e " ${GREEN} Back to menu in 2 sec ${NC}"
+sleep 2
+menu
+;;
+15)
+clear
+wget https://raw.githubusercontent.com/Jengkolonline/nonton/main/nf.sh && chmod +x nf.sh && ./nf.sh
+;;
+16)
+speedtest
+;;      
+17)
+clear
+autoreboot
+;;  
+18)
+clear
+prot
+;;
+19)
+reboot
+;;
+x)
+exit
+;;
+*)
+exit
+;;
+esac

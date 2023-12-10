@@ -1,0 +1,180 @@
+#!/bin/bash
+# SL
+# ==========================================
+# Color
+g="\033[1;92m"
+y='\033[1;33m' #yellow
+RED='\033[0;31m'
+NC='\033[0m'
+GREEN='\033[0;32m'
+ORANGE='\033[0;33m'
+BLUE="\033[36m"
+PURPLE='\033[0;35m'
+CYAN='\033[0;36m'
+LIGHT='\033[0;37m'
+HOST="$(cat /etc/xray/domain)"
+DATEVPS=$(date +"%d-%B-%Y")
+ipsaya=$(wget -qO- ipinfo.io/ip)
+data_server=$(curl -v --insecure --silent https://google.com/ 2>&1 | grep Date | sed -e 's/< Date: //')
+date_list=$(date +"%Y-%m-%d" -d "$data_server")
+data_ip="https://raw.githubusercontent.com/kytrx/regip/main/ip"
+checking_sc() {
+  useexp=$(wget -qO- $data_ip | grep $ipsaya | awk '{print $3}')
+  if [[ $date_list < $useexp ]]; then
+    echo -ne
+  else
+    echo -e "\033[1;93m────────────────────────────────────────────\033[0m"
+    echo -e "\033[42m          404 NOT FOUND AUTOSCRIPT          \033[0m"
+    echo -e "\033[1;93m────────────────────────────────────────────\033[0m"
+    echo -e ""
+    echo -e "            ${RED}PERMISSION DENIED !${NC}"
+    echo -e "   \033[0;33mYour VPS${NC} $ipsaya \033[0;33mHas been Banned${NC}"
+    echo -e "     \033[0;33mBuy access permissions for scripts${NC}"
+    echo -e "             \033[0;33mContact Admin :${NC}"
+    echo -e "      \033[0;36mTelegram${NC} t.me/YSSHstore"
+    echo -e "      ${GREEN}WhatsApp${NC} wa.me/6281215360549"
+    echo -e "\033[1;93m────────────────────────────────────────────\033[0m"
+    exit
+  fi
+}
+checking_sc
+clear
+IP=$(wget -qO- ipinfo.io/ip);
+date=$(date +"%Y-No such file or directory-0");
+Green_font_prefix="\033[32m" && Red_font_prefix="\033[31m" && Green_background_prefix="\033[42;37m" && Red_background_prefix="\033[41;37m" && Font_color_suffix="\033[0m"
+Info="${Green_font_prefix}[ON]${Font_color_suffix}"
+Error="${Red_font_prefix}[OFF]${Font_color_suffix}"
+cek=$(grep -c -E "^# BEGIN_Backup" /etc/crontab)
+if [[ "$cek" = "1" ]]; then
+sts="${Info}"
+else
+sts="${Error}"
+fi
+function start() {
+TIME="5"
+CHATID=$(grep -E "^#bot# " "/etc/bot/.bot.db" | cut -d ' ' -f 3)
+KEY=$(grep -E "^#bot# " "/etc/bot/.bot.db" | cut -d ' ' -f 2)
+URL="https://api.telegram.org/bot$KEY/sendMessage"
+email=$(cat /home/email)
+if [[ "$email" = "" ]]; then
+echo "Please enter your email"
+read -rp "Email : " -e email
+cat <<EOF>>/home/email
+$email
+EOF
+fi
+cat << EOF >> /etc/crontab
+# BEGIN_Backup
+5 0 * * * root backup
+# END_Backup
+EOF
+service cron restart
+sleep 1
+echo "Please Wait"
+TEXT="
+<code>_______________________________________</code>
+<code> STATUS AUTOBACKUP [ON] YOUR BOT</code>
+<code>DATA WILL BE BACKED UP AUTOMATICALLY AT 00:05</code>
+<code>_______________________________________</code>
+"
+curl -s --max-time $TIME -d "chat_id=$CHATID&disable_web_page_preview=1&text=$TEXT&parse_mode=html" $URL >/dev/null
+clear
+echo " Autobackup Has Been Started"
+echo " Data Will Be Backed Up Automatically at 00:05 GMT +7"
+exit 0
+}
+function stop() {
+TIME="5"
+CHATID=$(grep -E "^#bot# " "/etc/bot/.bot.db" | cut -d ' ' -f 3)
+KEY=$(grep -E "^#bot# " "/etc/bot/.bot.db" | cut -d ' ' -f 2)
+URL="https://api.telegram.org/bot$KEY/sendMessage"
+email=$(cat /home/email)
+sed -i "/^$email/d" /home/email
+sed -i "/^# BEGIN_Backup/,/^# END_Backup/d" /etc/crontab
+service cron restart
+sleep 1
+echo "Please Wait"
+TEXT1="
+<code>_______________________________________</code>
+<code> STATUS AUTOBACKUP [OFF] YOUR BOT</code>
+<code>_______________________________________</code>
+"
+curl -s --max-time $TIME -d "chat_id=$CHATID&disable_web_page_preview=1&text=$TEXT1&parse_mode=html" $URL >/dev/null
+clear
+echo " Autobackup Has Been Stopped"
+exit 0
+}
+
+function gantipenerima() {
+rm -rf /home/email
+echo "Please enter your email"
+read -rp "Email : " -e email
+cat <<EOF>>/home/email
+$email
+EOF
+}
+function gantipengirim() {
+echo "Please enter your email"
+read -rp "Email : " -e email
+echo "Please enter your Password email"
+read -rp "Password : " -e pwdd
+rm -rf /etc/msmtprc
+cat<<EOF>>/etc/msmtprc
+defaults
+tls on
+tls_starttls on
+tls_trust_file /etc/ssl/certs/ca-certificates.crt
+account default
+host smtp.gmail.com
+port 587
+auth on
+user $email
+from $email
+password $pwdd
+logfile ~/.msmtp.log
+EOF
+}
+function testemail() {
+email=$(cat /home/email)
+if [[ "$email" = "" ]]; then
+start
+fi
+email=$(cat /home/email)
+echo -e "
+Ini adalah isi email percobaaan kirim email dari vps
+IP VPS  : $IP
+Tanggal : $date
+" | mail -s "Percobaan Pengiriman Email" $email
+}
+clear
+echo -e " ${y}  ┌───────────────────────────────┐$NC"
+echo -e " ${y}  │${NC}${g}.::.${NC} MENU AUTOBACKUP $sts ${g}.::. $NC"
+echo -e " ${y}  └───────────────────────────────┘$NC"
+echo -e    "\033[1;33m  ┌──────────────────────────────────────────┐\033[0m"
+echo -e "  ${y}│${NC}${g} 1.${NC}\033[0;36m Start Autobackup"
+echo -e "  ${y}│${NC}${g} 2.${NC}\033[0;36m Stop Autobackup"
+echo -e "  ${y}│${NC}${g} 3.${NC}\033[0;36m Ganti Email Penerima"
+echo -e "  ${y}│${NC}${g} 4.${NC}\033[0;36m Ganti Email Pengirim"
+echo -e "  ${y}│${NC}${g} 5.${NC}\033[0;36m Test kirim Email"
+echo -e    "\033[1;33m  └──────────────────────────────────────────┘\033[0m"
+read -rp "Please Enter The Correct Number : " -e num
+case $num in
+1)
+start
+;;
+2)
+stop
+;;
+3)
+gantipenerima
+;;
+4)
+gantipengirim
+;;
+5)
+testemail
+;;
+*)
+clear
+;;
+esac

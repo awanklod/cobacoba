@@ -1,0 +1,128 @@
+#!/bin/bash
+# //====================================================
+# //	System Request:Debian 9+/Ubuntu 18.04+/20+
+# //	Author:	YSSHstore
+# //	Dscription: Xray Menu Management
+# //	email: admin@yogz.com
+# //  telegram: https://t.me/YSSHstore
+# //====================================================
+Green="\e[92;1m"
+RED="\033[31m"
+NC='\033[0m'
+c="\033[0;36m"
+g='\033[1;92m'
+OR='\033[1;93m'
+gg='\e[1;77m' #ijo tebel
+ipsaya=$(wget -qO- ipinfo.io/ip)
+data_server=$(curl -v --insecure --silent https://google.com/ 2>&1 | grep Date | sed -e 's/< Date: //')
+date_list=$(date +"%Y-%m-%d" -d "$data_server")
+data_ip="https://raw.githubusercontent.com/kytrx/regip/main/ip"
+checking_sc() {
+  useexp=$(wget -qO- $data_ip | grep $ipsaya | awk '{print $3}')
+  if [[ $date_list < $useexp ]]; then
+    echo -ne
+  else
+    echo -e "${OR}────────────────────────────────────────────${NC}"
+    echo -e "\033[42m          YOGZTUNNEL AUTOSCRIPT          ${NC}"
+    echo -e "${OR}────────────────────────────────────────────${NC}"
+    echo -e ""
+    echo -e "            ${RED}PERMISSION DENIED !${NC}"
+    echo -e "   \033[0;33mYour VPS${NC} $ipsaya \033[0;33mHas been Banned${NC}"
+    echo -e "     \033[0;33mBuy access permissions for scripts${NC}"
+    echo -e "             \033[0;33mContact Admin :${NC}"
+    echo -e "      ${Green}WhatsApp${NC} wa.me/6281215360549"
+    echo -e "         \033[0;36mTelegram${NC} t.me/YSSHstore"
+    echo -e "${OR}────────────────────────────────────────────${NC}"
+    exit
+  fi
+}
+checking_sc
+clear
+Green_font_prefix="\033[32m" && Red_font_prefix="\033[31m" && Green_background_prefix="\033[42;37m" && Red_background_prefix="\033[41;37m" && Font_color_suffix="\033[0m"
+Info="${Green_font_prefix}[ON]${Font_color_suffix}"
+Error="${Red_font_prefix}[OFF]${Font_color_suffix}"
+cek=$(grep -c -E "^# Autokill" /etc/cron.d/tendang)
+if [[ "$cek" = "1" ]]; then
+sts="${Info}"
+else
+sts="${Error}"
+fi
+clear
+echo -e " ${OR}  ┌───────────────────────────────┐$NC"
+echo -e " ${OR}  │${NC}${g} .::.${NC} MENU AUTOKILL MANAGER ${NC}${g}.::. $NC"
+echo -e " ${OR}  └───────────────────────────────┘$NC"
+echo -e "   ${OR}|$NC Status >> $sts"
+echo -e "   ${OR}|$NC$g 1.$NC$c AutoKill After 5 Minutes $NC"
+echo -e "   ${OR}|$NC$g 2.$NC$c AutoKill After 10 Minutes $NC"
+echo -e "   ${OR}|$NC$g 3.$NC$c AutoKill After 15 Minutes $NC"
+echo -e "   ${OR}|$NC$g 4.$NC$c Turn Off AutoKill/MultiLogin $NC"
+echo -e "   ${OR}|$NC$g 5.$NC$c Back To Menu $NC"
+echo -e "   ${OR}|$NC"
+echo -e "    ${OR}───────────────────────────────${NC}"
+echo -e ""
+read -p "Select From Options :  " AutoKill
+case $AutoKill in
+                1)
+                read -p "Multilogin Maximum Number Of Allowed: " max
+                sleep 1
+                clear
+                echo > /etc/cron.d/tendang
+                echo "# Autokill" >>/etc/cron.d/tendang
+                echo "*/5 * * * *  root /usr/bin/tendang $max" >>/etc/cron.d/tendang
+                echo -e ""
+                echo -e "  ${OR}──────────────────────────────────────${NC}"
+                echo -e ""
+                echo -e "        Allowed MultiLogin : $max Ip"
+                echo -e "        AutoKill Every     : 5 Minutes"      
+                echo -e ""
+                echo -e "  ${OR}──────────────────────────────────────${NC}"
+                exit                                                                  
+                ;;
+                2)
+                read -p "Multilogin Maximum Number Of Allowed: " max
+                sleep 1
+                clear
+                echo > /etc/cron.d/tendang
+                echo "# Autokill" >>/etc/cron.d/tendang
+                echo "*/10 * * * *  root /usr/bin/tendang $max" >>/etc/cron.d/tendang
+                echo -e ""
+                echo -e "  ${OR}──────────────────────────────────────${NC}"
+                echo -e ""
+                echo -e "        Allowed MultiLogin : $max Ip"
+                echo -e "        AutoKill Every     : 10 Minutes"
+                echo -e ""
+                echo -e "  ${OR}──────────────────────────────────────${NC}"
+                exit
+                ;;
+                3)
+                read -p "Multilogin Maximum Number Of Allowed: " max
+                sleep 1
+                clear
+                echo > /etc/cron.d/tendang
+                echo "# Autokill" >>/etc/cron.d/tendang
+                echo "*/15 * * * *  root /usr/bin/tendang $max" >>/etc/cron.d/tendang
+                echo -e ""
+                echo -e "  ${OR}──────────────────────────────────────${NC}"
+                echo -e ""
+                echo -e "        Allowed MultiLogin : $max Ip"
+                echo -e "        AutoKill Every     : 15 Minutes"
+                echo -e ""
+                echo -e "  ${OR}──────────────────────────────────────${NC}"
+                exit
+                ;;
+                4)
+                clear
+                echo > /etc/cron.d/tendang
+                echo -e ""
+                echo -e "  ${OR}──────────────────────────────────────${NC}"
+                echo -e ""
+                echo -e "        AutoKill MultiLogin Turned $Error"
+                echo -e ""
+                echo -e "  ${OR}──────────────────────────────────────${NC}"
+                exit
+                ;;
+                x)
+                clear
+                menu
+                ;;
+                esac

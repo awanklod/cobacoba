@@ -1,0 +1,63 @@
+#!/bin/bash
+Green="\e[92;1m"
+RED="\033[31m"
+NC='\033[0m'
+OR='\033[1;93m'
+# Valid Script
+ipsaya=$(wget -qO- ipinfo.io/ip)
+data_server=$(curl -v --insecure --silent https://google.com/ 2>&1 | grep Date | sed -e 's/< Date: //')
+date_list=$(date +"%Y-%m-%d" -d "$data_server")
+data_ip="https://raw.githubusercontent.com/kytrx/regip/main/ip"
+checking_sc() {
+  useexp=$(wget -qO- $data_ip | grep $ipsaya | awk '{print $3}')
+  if [[ $date_list < $useexp ]]; then
+    echo -ne
+  else
+    echo -e "\033[1;93m────────────────────────────────────────────\033[0m"
+    echo -e "\033[42m          404 NOT FOUND AUTOSCRIPT          \033[0m"
+    echo -e "\033[1;93m────────────────────────────────────────────\033[0m"
+    echo -e ""
+    echo -e "            ${RED}PERMISSION DENIED !${NC}"
+    echo -e "   \033[0;33mYour VPS${NC} $ipsaya \033[0;33mHas been Banned${NC}"
+    echo -e "     \033[0;33mBuy access permissions for scripts${NC}"
+    echo -e "             \033[0;33mContact Admin :${NC}"
+    echo -e "      \033[0;36mTelegram${NC} t.me/YSSHstore"
+    echo -e "      ${GREEN}WhatsApp${NC} wa.me/6281215360549"
+    echo -e "\033[1;93m────────────────────────────────────────────\033[0m"
+    exit
+  fi
+}
+checking_sc
+clear
+echo -e "${OR} ┌──────────────────────────────────────────┐${NC}"
+echo -e "${OR} │$NC            PORT SERVICE INFO\033[0m             ${OR}|${NC}"
+echo -e "${OR} └──────────────────────────────────────────┘${NC}"
+echo -e "${OR}┌─────────────────────────────────────────────┐"
+echo -e "${OR}│       >>> Service & Port                    │"
+echo -e "${OR}│   - Open SSH                : 443, 80, 22   │"
+echo -e "${OR}│   - Dropbear                : 443, 109, 143 │"
+echo -e "${OR}│   - Dropbear Websocket      : 443, 109      │"
+echo -e "${OR}│   - SSH Websocket SSL       : 443           │"
+echo -e "${OR}│   - SSH Websocket           : 80            │"
+echo -e "${OR}│   - OpenVPN SSL             : 443           │"
+echo -e "${OR}│   - OpenVPN Websocket SSL   : 443           │"
+echo -e "${OR}│   - OpenVPN TCP             : 443, 1194     │"
+echo -e "${OR}│   - OpenVPN UDP             : 2200          │"
+echo -e "${OR}│   - Nginx Webserver         : 443, 80, 81   │"
+echo -e "${OR}│   - Haproxy Loadbalancer    : 443, 80       │"
+echo -e "${OR}│   - OpenVPN Websocket SSL   : 443           │"
+echo -e "${OR}│   - XRAY Vmess TLS          : 443           │"
+echo -e "${OR}│   - XRAY Vmess gRPC         : 443           │"
+echo -e "${OR}│   - XRAY Vmess None TLS     : 80            │"
+echo -e "${OR}│   - XRAY Vless TLS          : 443           │"
+echo -e "${OR}│   - XRAY Vless gRPC         : 443           │"
+echo -e "${OR}│   - XRAY Vless None TLS     : 80            │"
+echo -e "${OR}│   - Trojan gRPC             : 443           │"
+echo -e "${OR}│   - Trojan WS               : 443           │"
+echo -e "${OR}│   - Shadowsocks WS          : 443           │"
+echo -e "${OR}│   - BadVPN 1                : 7100          │"
+echo -e "${OR}│   - BadVPN 2                : 7200          │"
+echo -e "${OR}│   - BadVPN 3                : 7300          │"
+echo -e "${OR}│   - Proxy Squid             : 3128          │"
+echo -e "${OR}└─────────────────────────────────────────────┘"
+echo ""
