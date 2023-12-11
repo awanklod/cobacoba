@@ -1,12 +1,12 @@
 #!/bin/bash
 # //====================================================
 # //	System Request:Debian 9+/Ubuntu 18.04+/20+
-# //	Author:	YSSHstore
+# //	Author:	CLOUDVPN
 # //	Dscription: Xray Menu Management
-# //	email: admin@YSSHstore
-# //  telegram: https://t.me/YSSHstore
+# //	email: admin@CLOUDVPN
+# //  telegram: https://t.me/CLOUDVPNPREMIUM
 # //====================================================
-# // font color configuration | YSSHstore AUTOSCRIPT
+# // font color configuration | CLOUDVPN AUTOSCRIPT
 red() { echo -e "\\033[32;1m${*}\\033[0m"; }
 IP=$(curl -s ipv4.icanhazip.com)
 HOST="$(cat /etc/xray/domain)"
@@ -54,11 +54,11 @@ LOCATION    : $CITY
 LINK BACKUP : $link
 _______________________________________
 
-© Copyright By YSSHstore
+© Copyright By CLOUDVPN
 Busines email : bot@gmail.com
-Report bugs   : @YSSHstore
-MyridTunnel Project
-    " | mail -s "MyridTunnel Backup" $EMAIL
+Report bugs   : @CLOUDVPN
+CLOUDVPN Project
+    " | mail -s "CLOUDVPN Backup" $EMAIL
     echo -e "━━━━━━━━━━━━━━━━━━━━━━━━━"
     echo -e "SUCCESSFULL BACKUP YOUR VPS"
     echo -e "Please Save The Following Data"
