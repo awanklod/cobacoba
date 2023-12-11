@@ -100,7 +100,7 @@ async def cek_trojan(event):
 {z}
 
 **Shows Logged In Users Trojan**
-**» 🤖@YSSHstore**
+**» 🤖@CLOUDVPN**
 """,buttons=[[Button.inline("‹ Main Menu ›","menu")]])
 	sender = await event.get_sender()
 	a = valid(str(sender.id))
@@ -178,7 +178,7 @@ Button.inline(" 60 Menit ","60")]])
 `{b[1].replace(" ","")}`
 **━━━━━━━━━━━━━━━━**
 **» Expired Until:** `{exp} Minutes`
-**» 🤖@YSSHstore**
+**» 🤖@CLOUDVPN**
 """
 			await event.respond(msg)
 	chat = event.chat_id
@@ -230,7 +230,7 @@ Button.inline(" DELETE TROJAN ","delete-trojan")],
 ⚡ **» Hostname/IP:** `{DOMAIN}`
 ⚡ **» ISP:** `{z["isp"]}`
 ⚡ **» Country:** `{z["country"]}`
-🤖 **» @YSSHstore**
+🤖 **» @CLOUDVPN**
 ━━━━━━━━━━━━━━━━━━━━━━━ 
 """
 		await event.edit(msg,buttons=inline)
