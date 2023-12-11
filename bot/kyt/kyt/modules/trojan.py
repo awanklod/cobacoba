@@ -77,7 +77,7 @@ Button.inline(" 60 Day ","60")]])
 **» Format OpenClash :** `https://{domain}:81/trojan-{user}.txt`
 **━━━━━━━━━━━━━━━━**
 **Expired Until:** `{later}`
-**» 🤖@YSSHstore**
+**» 🤖@CLOUDVPN**
 """
 			await event.respond(msg)
 	chat = event.chat_id
